@@ -7,8 +7,12 @@ const especiales = ['A', 'J', 'Q', 'K'];
 let puntosJugador = 0;
 let puntosComputadora = 0;
 let sumadorJugador = document.querySelectorAll('small');
+let sumadorComputadora = document.querySelectorAll('small');
 let divCartasJugador = document.querySelector('#jugador-cartas');
+let divCartasComputadora = document.querySelector('#Computadora-cartas');
 const botonPedir = document.querySelector('#botonPedir');
+const botonDetener = document.querySelector('#botonDetener');
+
 
 
 //Esta función crea un mazo aleatorio
@@ -57,6 +61,29 @@ const valorCarta = (carta) => {
 
 }
 
+// Turno de la computadora
+
+const turnoComputadora = (puntosMinimo) => {
+
+    do {
+        const carta = pedirCarta();
+        puntosComputadora = puntosComputadora + valorCarta(carta);
+        sumadorComputadora[1].innerText = puntosComputadora;
+        //<img class="cartas" src="cartas/10D.png" alt="">
+
+        const imgCarta = document.createElement('img');
+        imgCarta.src = `cartas/${carta}.png`;
+        imgCarta.classList.add('cartas');
+        divCartasComputadora.append(imgCarta);
+        if (puntosMinimo > 21) {
+            
+            break;
+        }
+
+    } while ( (puntosComputadora < puntosMinimo) && (puntosMinimo <= 21 ));
+
+}
+
 // Eventos de los clicks de los botones
 
 botonPedir.addEventListener('click', () => {
@@ -68,9 +95,26 @@ botonPedir.addEventListener('click', () => {
 
     const imgCarta = document.createElement('img');
     imgCarta.src = `cartas/${carta}.png`;
-    imgCarta.classList.add('carta');
+    imgCarta.classList.add('cartas');
     divCartasJugador.append(imgCarta);
+
+    if (puntosJugador > 21) {        
+        botonPedir.disabled = true;
+        botonDetener.disabled = true;
+        turnoComputadora(puntosJugador);
+        alert('Lo siento, perdiste. Suerte en la próxima');
+    } else if (puntosJugador === 21) {
+        console.warn('21, Grandioso!');
+        botonPedir.disabled = true;
+        turnoComputadora(puntosJugador);
+    }
 
     
 });
+
+botonDetener.addEventListener('click', () => {
+    botonPedir.disabled = true;
+    botonDetener.disabled = true;
+    turnoComputadora(puntosJugador);
+})
 
