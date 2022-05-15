@@ -12,6 +12,7 @@ let divCartasJugador = document.querySelector('#jugador-cartas');
 let divCartasComputadora = document.querySelector('#Computadora-cartas');
 const botonPedir = document.querySelector('#botonPedir');
 const botonDetener = document.querySelector('#botonDetener');
+const botonNuevo = document.querySelector('#botonNuevo');
 
 
 
@@ -76,15 +77,42 @@ const turnoComputadora = (puntosMinimo) => {
         imgCarta.classList.add('cartas');
         divCartasComputadora.append(imgCarta);
         if (puntosMinimo > 21) {
-            
             break;
         }
 
     } while ( (puntosComputadora < puntosMinimo) && (puntosMinimo <= 21 ));
 
+    setTimeout(() => {        
+    puntosMinimo > 21 ? alert('Lo siento, perdiste. Suerte en la próxima') :
+    puntosMinimo > puntosComputadora ? alert('Lo siento, perdiste. Suerte en la próxima') : 
+    puntosMinimo === puntosComputadora ? alert('Empataron') : alert('Felicitaciones, ganaste!');        
+    }, 30);
+
+
 }
 
 // Eventos de los clicks de los botones
+
+botonNuevo.addEventListener('click', () => {
+
+    console.clear();
+    mazo = [];
+    mazo = crearMazo();
+
+    puntosComputadora = 0;
+    puntosJugador = 0;
+    
+    sumadorJugador[0].innerText = 0;
+    sumadorComputadora[1].innerText = 0;
+
+    divCartasComputadora.innerHTML = '';
+    divCartasJugador.innerHTML = '';
+
+    botonPedir.disabled = false;
+    botonDetener.disabled = false;
+
+
+})
 
 botonPedir.addEventListener('click', () => {
 
@@ -102,7 +130,7 @@ botonPedir.addEventListener('click', () => {
         botonPedir.disabled = true;
         botonDetener.disabled = true;
         turnoComputadora(puntosJugador);
-        alert('Lo siento, perdiste. Suerte en la próxima');
+        
     } else if (puntosJugador === 21) {
         console.warn('21, Grandioso!');
         botonPedir.disabled = true;
@@ -117,4 +145,5 @@ botonDetener.addEventListener('click', () => {
     botonDetener.disabled = true;
     turnoComputadora(puntosJugador);
 })
+
 
