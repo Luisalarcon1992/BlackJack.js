@@ -57,7 +57,7 @@ const valorCarta = (carta) => {
 
 }
 
-// Eventos de click 
+// Eventos de los clicks de los botones
 
 botonPedir.addEventListener('click', () => {
 
